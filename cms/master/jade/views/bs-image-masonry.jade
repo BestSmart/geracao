@@ -1,0 +1,64 @@
+div
+	div(ng-controller='FileUploadController', nv-file-drop='', uploader='uploader', filters='queueLimit, customFilter')
+		.container-fluid
+			.row
+				.col-md-3
+					.panel
+						.panel-body
+							h4.page-header.mt0 Selecione as Imagens
+							input.form-control(filestyle="", type='file', data-button-text="Multiple", data-class-button='btn btn-default', data-class-input="form-control inline", nv-file-select='', uploader='uploader', multiple='')
+				.col-md-9(style='margin-bottom: 40px')
+					.panel
+						.panel-body
+							p.pull-right.label.label-info(ng-if="uploader.queue.length") Arquivos na fila: {{ uploader.queue.length }}
+							h4.page-header.mt0 Fila de Imagens
+							p.lead.text-center(ng-if="!uploader.queue.length") Nenhum arquivo na fila..
+							div(ng-if="uploader.queue.length")
+								table.table(ng-if="uploader.queue.length")
+									thead
+										tr
+											th(width='50%') Nome
+											th(ng-show='uploader.isHTML5') Tamanho
+											th(ng-show='uploader.isHTML5') Progresso
+											th Status
+											th Ações
+									tbody
+										tr(ng-repeat='item in uploader.queue')
+											td
+												strong {{ item.file.name }}
+											td(ng-show='uploader.isHTML5', nowrap='') {{ item.file.size/1024/1024|number:2 }} MB
+											td(ng-show='uploader.isHTML5')
+												.progress.progress-xs(style='margin-bottom: 0;')
+													.progress-bar(role='progressbar', ng-style="{ 'width': item.progress + '%' }")
+											td.text-center
+												span(ng-show='item.isSuccess')
+													em.fa.fa-check.fa-fw
+												span(ng-show='item.isCancel')
+													em.fa.fa-ban-circle.fa-fw
+												span(ng-show='item.isError')
+													em.fa.fa-times.fa-fw
+											td(nowrap='')
+												button.btn.btn-info.btn-xs(type='button', ng-click='item.upload()', ng-disabled='item.isReady || item.isUploading || item.isSuccess')
+													span.icon-cloud-upload.mr
+													| Upload
+												button.btn.btn-warning.btn-xs(type='button', ng-click='item.cancel()', ng-disabled='!item.isUploading')
+													span.icon-close.mr
+													| Cancelar
+												button.btn.btn-danger.btn-xs(type='button', ng-click='item.remove()')
+													span.icon-trash.mr
+													| Remover
+					.panel
+						.panel-body
+							div
+								p Progresso da Fila:
+								.progress.progress-xs(style='')
+									.progress-bar(role='progressbar', ng-style="{ 'width': uploader.progress + '%' }")
+							button.btn.btn-info.btn-s(type='button', ng-click='uploader.uploadAll()', ng-disabled='!uploader.getNotUploadedItems().length')
+								span.icon-cloud-upload.mr
+								| Enviar todos
+							button.btn.btn-warning.btn-s(type='button', ng-click='uploader.cancelAll()', ng-disabled='!uploader.isUploading')
+								span.icon-close.mr
+								| Cancelar todos
+							button.btn.btn-danger.btn-s(type='button', ng-click='uploader.clearQueue()', ng-disabled='!uploader.queue.length')
+								span.icon-trash.mr
+								| Remover todos

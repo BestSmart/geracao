@@ -1,0 +1,153 @@
+{% extends "index.html" %}
+{%block head%}
+{%block more_css%}
+{{parent()}}
+<!-- CSS Page Style -->    
+<link rel="stylesheet" href="{{base_url}}/assets/css/pages/portfolio-v2.css">
+{%endblock%}
+{{parent()}}
+{%endblock%}
+{% block top %}
+<!--=== Header ===-->
+<div class="wrapper">
+	<div class="header">
+
+		{% block topbar %}
+		<div class="header">
+			<!-- Topbar -->
+			<div class="topbar">
+				<div class="container">
+					<!-- Topbar Navigation -->
+					<ul class="loginbar pull-right">
+						<li><div class="fb-share-button" data-href="{{url}}" data-layout="button_count"></div></li>  
+						<li><div class="fb-like" data-href="{{empresa.dominio}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" data-colorscheme="light"></div></li>
+					</ul>
+					<!-- End Topbar Navigation -->
+				</div>
+			</div>
+			{% endblock %}
+
+			{% block menu %}
+			<!-- Navbar -->
+			<div class="navbar navbar-default mega-menu" role="navigation">
+				<div class="container">
+					<div class="navbar navbar-default" role="navigation">
+						<div class="container">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="fa fa-bars"></span>
+								</button>
+
+								<a class="navbar-brand" href="{{base_url}}/">
+									<img id="logo-header" src=" {{sessoes['LINK_IMAGEM_LOGO_PRINCIPAL']}}" alt="Logo">
+								</a>
+							</div>
+
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="collapse navbar-collapse navbar-responsive-collapse">
+								<ul class="nav navbar-nav">
+									<li><a href="{{base_url}}/">Home</a></li>
+									<li><a href="{{base_url}}/quemsomos">Quem Somos</a></li>
+									{% for menu in menus %}
+									<li class='{{ menu.texto == pagina.nomeMenu ? 'active' }}'><a href="{{base_url}}/{{ menu.url |url_encode }}">{{ menu.texto }}</a></li>
+									{% endfor %}
+									{%if produtos%}
+									<li><a href="{{base_url}}/produtos/1">Produtos</a></li>
+									{%endif%}
+									{%if posts%}
+									<li><a href="{{base_url}}/posts/1">Blog</a></li>
+									{%endif%}
+									<li ><a href="{{base_url}}/contato">Contato</a></li>
+								</ul>
+							</div><!--/navbar-collapse-->
+						</div>
+					</div>
+					<!-- End Navbar -->
+					{% endblock %}
+				</div>
+				<!--=== End Header ===-->
+
+				{% endblock %}
+				{% block content %}
+				<!--=== Content Part ===-->
+				<div class="container content">
+					<div class="sorting-block">
+						<ul class="sorting-nav sorting-nav-v1 text-center">
+							<li class="filter" data-filter="all">Todos</li>
+							{%for tag in tags%}
+							<li class="filter" data-filter="{{tag}}">{{tag}}</li>
+							{%endfor%}
+						</ul>
+						<ul class="row sorting-grid">
+							{%for produto in produtos%}
+							<li class="col-md-4 col-sm-6 col-xs-12 mix {{produto.tags | replace({',':''})}}" data-cat="1">
+								<a href="{{base_url}}/produto/{{produto.nome | url_encode }}">
+									{%if produto.album %}
+									<img class="img-responsive" src="{{base_url}}/rest/{{produto.album}}" alt="">
+									{%else%}
+									<img class="img-responsive" src="{{base_url}}/noimage.jpg" alt="">
+									{%endif%}
+									<span class="sorting-cover text-center">
+										<span>{{produto.nome}}</span>
+										<p>{{produto.resumo |slice(0, 350)}}</p>
+									</span>
+								</a>
+							</li>
+							{%endfor%}
+						</ul>
+					</div>
+					<!--					<div class="row margin-bottom-30">
+											 Bordered Funny Boxes 
+											{% for produto in produtos %}
+											<div class="col-md-6">
+												<div class="funny-boxes funny-boxes-top-sea">
+													<div class="row">
+														{%if produto.album %}
+														<div class="col-md-4 funny-boxes-img">
+															<img alt="" src="../../rest/{{produto.album}}" class="img-responsive">
+															<ul class="list-unstyled">
+																										<li><i class="fa fa-calendar"></i> {{post.date |date("d/m/Y G:i:s")}}</li>
+																									</ul>
+														</div>
+														{%endif%}
+														<div class="{%if produto.album %}col-md-8{%else%}col-md-12{%endif%}">
+															<h2><a href="{{base_url}}/produto/{{produto.nome | url_encode }}">{{produto.nome}}</a></h2>
+															<p>{{produto.resumo |slice(0, 350)}}...</p>
+														</div>
+													</div>
+												</div>
+											</div>
+											 End Bordered Funny Boxes 
+											{% endfor %}
+										</div>-->
+				</div>
+			</div>  <div class="container">
+				<div class="text-center">
+					<ul class="pagination">
+						{% if pages == 1 %}
+						<li><a href="{{pages}}">{{loop.index}}</a></li>
+						{% else %}
+						{% for i in 0..pages %}
+						<li><a href="{{pages}}">{{loop.index}}</a></li>
+						{% endfor %}
+						{%endif%}
+					</ul>
+				</div>
+			</div>
+			{% endblock %}
+			{%block scripts%}
+			{{parent()}}
+			{%block more_scripts%}
+			{{parent()}}
+			<script type="text/javascript" src="{{base_url}}/assets/plugins/jquery.mixitup.min.js"></script> 
+			<script type="text/javascript" src="{{base_url}}/assets/js/pages/page_portfolio.js"></script>
+			<script type="text/javascript">
+jQuery(document).ready(function () {
+	App.init();
+	PortfolioPage.init();
+});
+			</script>
+			{%endblock%}
+			{%endblock%}

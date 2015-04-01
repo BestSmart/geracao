@@ -1,0 +1,44 @@
+.block-center.mt-xl.wd-xl
+  // START panel
+  .panel.panel-dark.panel-flat
+    .panel-heading.text-center
+      a(href="#")
+        img.block-center.img-rounded(src='app/img/logo.png', alt='Image')
+    .panel-body
+      alert(type="{{alert.type}}", ng-if="!alert.close",close="closeAlert()", animate="", data-play="fadeIn", data-offset="0") {{alert.msg}}
+      p.text-center.pv FAÇA LOGIN PARA ACESSAR.
+      form(role='form', ng-submit="login()", validate-form='', novalidate='').mb-lg
+        .form-group.has-feedback
+          input#login-id.form-control(type='text', placeholder='Digite o login', autocomplete="off", ng-model="credencial.username", required)
+          span.fa.fa-user.form-control-feedback.text-muted
+        .form-group.has-feedback
+          input#password-id.form-control(type='password', placeholder='Digite a senha', ng-model="credencial.password", required)
+          span.fa.fa-lock.form-control-feedback.text-muted
+        .clearfix
+          .pull-right
+            a.text-muted(href="",ng-dialog="firstDialogId", ng-dialog-controller='LoginCtrl', ng-dialog-class='ngdialog-theme-default', ng-dialog-show-close='false') Esqueceu a senha?
+        
+        button.btn.btn-block.btn-primary.mt-lg(type='submit') Entrar
+  // END panel
+  .p-lg.text-center
+    span &copy; 
+    span(ng-bind="app.year") 
+    span  - 
+    span(ng-bind="app.name")
+    br
+    span(ng-bind="app.description")
+
+script(type="text/ng-template", id="firstDialogId")
+  .panel.panel-dark.panel-flat
+    .panel-heading.text-center
+      a(href="#")
+        img.block-center.img-rounded(src='app/img/logo.png', alt='Image')
+    .panel-body
+      alert(type="{{alert.type}}", ng-if="!alert.close",close="closeAlert()", animate="", data-play="fadeIn", data-offset="0") {{alert.msg}}
+      p.text-center.pv Digite o email da conta que deseja recuperar.
+      form(role='form', ng-submit="recuperarSenha()", validate-form='', novalidate='').mb-lg
+        .form-group.has-feedback
+          input#email.form-control(type='email', placeholder='Digite seu email', autocomplete="off", ng-model="credencial.email", required)
+          span.fa.fa-mail.form-control-feedback.text-muted
+        button.btn.btn-primary.mt-lg(type='submit') Enviar
+        button.btn.btn-danger.mt-lg(type='button', ng-click="closeThisDialog('Cancel')") Cancelar

@@ -1,0 +1,53 @@
+[
+	{
+		"text": "Menus",
+		"heading": "true",
+		"translate": "sidebar.heading.HEADER"
+	},
+	{
+		"text": "Empresa",
+		"sref": "principal.empresa",
+		"icon": "fa fa-building-o"
+	},
+	{
+		"text": "Credenciais",
+		"sref": "principal.credencial",
+		"icon": "icon-lock"
+	},
+	{
+		"text": "Alterar Senha",
+		"sref": "principal.alterarSenha",
+		"icon": "fa fa-lock"
+	},
+	{
+		"text": "Paginas",
+		"sref": "principal.pagina",
+		"icon": "icon-note"
+	},
+	{
+		"text": "Produtos",
+		"sref": "principal.produto",
+		"icon": "icon-basket"
+	},
+	{
+		"text": "Parceiros",
+		"sref": "principal.parceiro",
+		"icon": "fa fa-users"
+	},
+	{
+		"text": "Albuns",
+		"sref": "principal.album",
+		"icon": "fa fa-camera"
+	},
+	{
+		"text": "Carrosel",
+		"sref": "principal.carrosel",
+		"icon": "fa fa-file-image-o"
+	},
+	{
+		"text": "Sessoes",
+		"sref": "principal.sessao",
+		"icon": "fa fa-bars"
+	}
+
+]

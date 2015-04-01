@@ -1,0 +1,101 @@
+.container-fluid
+	#tablePaginas.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Páginas
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tablePaginas",ng-init="tablePaginas=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='pag in $data', ng-click='setPagina(pag)', ng-class="{'active primary': pag.id === pagina.id }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{pag.id}}
+						td(data-title="'Título'", sortable="'titulo'") {{pag.titulo}}
+						td(data-title="'Nome Menu'", sortable="'nomeMenu'") {{pag.nomeMenu}}
+						td(data-title="'Data e Hora'", sortable="'dataHora.date'") {{pag.dataHora.date}}
+						td(data-title="'Ordem'", sortable="'ordem'") {{pag.ordem}}
+						td(data-title="'Publicar'", sortable="'publicar'") {{pag.publicar}}
+						td(data-title="'Postagem'", sortable="'postagem'") {{pag.postagem}}						
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="novaPagina()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temPagina()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="remover()",ng-disabled="!temPagina() || pagina.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover
+			div(ng-if="")
+				.fb-share-button(data-href="{{pagina.url}}", data-layout="button_count")
+	#formPaginas.panel.panel-info(ng-if="temPagina()")
+		.panel-heading
+			span.h4 {{pagina.id +' - '+ pagina.titulo}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formPaginas", ng-init="formPaginas=true")
+			.panel-body
+				form#formularioPaginas(action="#",validate-form='', novalidate='')
+					fieldset
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="pagina-titulo") Título: *
+									input.form-control#pagina-titulo(type='text', name='nome', ng-model='pagina.titulo', placeholder="Digite o título",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="pagina-menu") Nome Menu *
+									input.form-control#pagina-menu(ng-model="pagina.nomeMenu",type='text', placeholder="Digite o nome do menu", required)
+							.col-md-6
+								.form-group
+									label.control-label(for="pagina-ordem") Ordem *
+									input.form-control#pagina-ordem(ng-model="pagina.ordem",type='number', placeholder="Digite a ordem", required)
+							.col-md-6
+								.form-group
+									label.control-label(for="pagina-tags") Tags *
+									input.form-control#pagina-tags(ng-model="pagina.tags",type='text', placeholder="Digite as tags separadas por vírgula", required)
+							.col-md-6
+								.form-group
+									label.control-label(for="pagina-datahora") Data e Hora
+									input.form-control#pagina-datahora(ng-model="pagina.dataHora.date",type='text', placeholder="Digite a Data e Hora", disabled)
+								.col-md-6
+									.form-group
+										label.control-label 
+										.checkbox.c-checkbox
+											label
+												input(type='checkbox', ng-model="pagina.publicar", name="pagina.publicar")
+												span.fa.fa-check
+												| Publicar
+								.col-md-6
+									.form-group
+										label.control-label 
+										.checkbox.c-checkbox
+											label
+												input(type='checkbox', ng-model="pagina.postagem", name="pagina.postagem")
+												span.fa.fa-check
+												| Postagem
+							.col-md-6(ng-if="pagina.postagem")
+								.form-group
+									label.control-label(for="pagina-resumo") Resumo *
+									textarea.form-control#pagina-resumo(ng-model="pagina.resumo",type='text', placeholder="Digite um breve resumo")
+
+						.col-md-12
+							summernote(lang="pt-BR", ng-model="pagina.conteudo", config="cfg")
+	#formVerImagens.panel.panel-info(ng-if="temPagina() && pagina.id > 0")
+		.panel-heading
+			span.h4 Imagens da Página
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formVerImagens", ng-init="formVerImagens=true")
+			.panel-body
+				gallery(images="images", excluir-imagem='excluirImagem', set-capa="setCapa")
+	#formPaginaImagens.panel.panel-info(ng-if="temPagina() && pagina.id > 0")
+		.panel-heading
+			span.h4 Upload de Imagens
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formPaginaImagens", ng-init="formPaginaImagens=true")
+			.panel-body
+				form#formularioPaginaImagens(action="#",validate-form='', novalidate='')
+					fieldset
+						h3 Upload de Imagens
+						bs-image-upload(album="pagina.album.id", on-upload="onUpload()")

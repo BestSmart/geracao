@@ -1,0 +1,95 @@
+<!--=== Slider ===-->
+{% if slides%}
+<div class="tp-banner-container">
+	<div class="tp-banner">
+		<ul>
+			<!-- SLIDE -->
+			{% for slide in slides%}
+			<li class="revolution-mch-1" data-transition="fade" data-slotamount="5" data-masterspeed="1000" data-title="Title 1">
+				<!-- MAIN IMAGE -->
+				<img src="{{slide.linkImagem}}"  alt="darkblurbg"  data-bgfit="cover" data-bgposition="left top" data-bgrepeat="no-repeat">
+
+				<div class="tp-caption revolution-ch1 sft start"
+					 data-x="center"
+					 data-hoffset="0"
+					 data-y="150"
+					 data-speed="1500"
+					 data-start="500"
+					 data-easing="Back.easeInOut"
+					 data-endeasing="Power1.easeIn"
+					 data-endspeed="300">
+					{{slide.titulo}}
+				</div>
+
+				<!-- LAYER -->
+				<div class="tp-caption revolution-ch2 sft word-wrap"
+					 data-x="center"
+					 data-hoffset="0"
+					 data-y="190"
+					 data-speed="1400"
+					 data-start="500"
+					 data-easing="Power4.easeOut"
+					 data-endspeed="300"
+					 data-endeasing="Power1.easeIn"
+					 style="z-index: 6">
+					{{slide.texto| nl2br }}
+					<br><br>
+					<a href="{{slide.redirect}}" class="btn-u btn-brd btn-brd-hover btn-u-light">Saiba Mais</a>
+				</div>
+			</li>
+			{%endfor%}
+			<!-- END SLIDE -->
+		</ul>
+		<div class="tp-bannertimer tp-bottom"></div>
+	</div>
+</div>
+<!--=== End Slider ===-->
+{%endif%}
+<div class="bg-grey content-sm">
+	<div class="container text-center">
+		<h2 class="title-v2 title-center">{{sessoes['HOME_001_QUEMSOMOS_TITULO'] | nl2br }}</h2>
+		<p class="space-lg-hor">{{sessoes['HOME_001_QUEMSOMOS_CONTEUDO'] | nl2br }}</p><br>
+		<a href="{{base_url}}/Quem Somos" class="btn-u btn-brd btn-brd-hover btn-u-dark">Quem Somos</a>
+	</div>
+</div>
+
+{%if parceiros%}
+<div class="bg-grey content-sm">
+	<div class="container text-center">
+		<h2 class="title-v2 title-center">Alguns de nossos parceiros</h2>
+	</div>
+</div>
+<ul class="list-unstyled row portfolio-box-v1">
+	{%for parceiro in parceiros%}
+	<li class="col-md-3 col-sm-6">
+		{%if parceiro['capa']%}
+		<img class="img-responsive" src="{{parceiro['capa'] | replace({'../../':''})}}" alt="">
+		{%else%}
+		<img class="img-responsive" src="{{base_url}}/noimage.jpg" alt="">
+		{%endif%}
+		<div class="portfolio-box-v1-in">
+			<h3>{{parceiro['nome']}}</h3>
+			<p>{{parceiro['slogan']}}</p>
+			{%if parceiro['url']%}
+			<a class="btn-u btn-u-sm btn-brd btn-brd-hover btn-u-light" href="{{parceiro['url']}}">Conheça</a>
+			{%endif%}
+		</div>
+	</li>
+	{%endfor%}
+</ul>
+{%endif%}
+<div class="bg-grey content-sm">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-6">
+				<h2 class="title-v2">{{sessoes['HOME_002_NOTICIA_TITULO'] | nl2br }}</h2>
+				<p>{{sessoes['HOME_002_NOTICIA_CONTEUDO'] | nl2br }}</p><br>
+				<a href="{{base_url}}/websites" class="btn-u btn-brd btn-brd-hover btn-u-dark">Veja mais</a>
+			</div>
+			<div class="col-md-6">
+				<img class="img-responsive" src="{{sessoes['LINK_IMAGE_HOME_002_NOTICIA']}}" alt="">
+			</div>
+		</div>
+	</div>
+</div>
+

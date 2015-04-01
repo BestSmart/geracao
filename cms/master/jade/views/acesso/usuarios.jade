@@ -1,0 +1,159 @@
+.container-fluid(autorizacao='ACSS_USUARIOS_LISTAR')
+	// Row Select Example
+	#tableUsuarios.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Usuários
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableUsuarios",ng-init="tableUsuarios=true")
+			.panel-body
+				.container-fluid
+					form.input-group.m-b(ng-submit="tableParams.reload()")
+						input.form-control(ng-model="filterUsuario")
+						span.input-group-addon(ng-click="tableParams.reload()") Buscar
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='usu in $data', ng-click='setUsuario(usu)', ng-class="{'active primary': usu.id === usuario.id }")
+						td(data-title="'Nome'", sortable="'nome'", filter="{ 'nome': 'text' }") {{usu.nome}}
+						td(data-title="'CPF'", sortable="'cpf'") {{usu.cpf}}
+						td(data-title="'Login'", sortable="'credencial.login'") {{usu.credencial.login}}
+						td(data-title="'Email'", sortable="'credencial.email'") {{usu.credencial.email}}
+						td(data-title="'Bloqueado'", sortable="'credencial.bloqueado'") {{usu.credencial.bloqueado ? 'Sim':'Não'}}
+						td(data-title="'Desativado'", sortable="'credencial.desativado'") {{usu.credencial.desativado ? 'Sim':'Não'}}
+	#formUsuarios.panel.panel-info(autorizacao='ACSS_USUARIOS_ADICIONAR,ACSS_USUARIOS_EDITAR,ACSS_USUARIOS_LISTAR', ng-if="temUsuario()")
+		.panel-heading
+			span.h4 {{usuario.id +' - '+ usuario.nome}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formUsuarios", ng-init="formUsuarios=true")
+			.panel-body
+				form#formularioUsuarios(action="#",validate-form='', novalidate='')
+					fieldset(ng-disabled="!checkOperacao(['ACSS_USUARIOS_ADICIONAR,ACSS_USUARIOS_EDITAR'])")
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="usuario-nome") Nome: *
+									input.form-control#usuario-nome(type='text', name='nome', ng-model='usuario.nome', placeholder="Digite o nome",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="usuario-cpf") CPF *
+									input.form-control#usuario-cpf(ng-model="usuario.cpf",type='text', name='cpf', masked, data-inputmask="'mask': '999.999.999-99'",placeholder="Digite o CPF", data-parsley-cpf, required)
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="usuario-credencial-email") E-mail *
+									input.form-control#usuario-credencial-email(ng-model="usuario.credencial.email", type='email', name='email',placeholder="Digite o e-mail", required)
+							.col-md-6
+								.form-group
+									label.control-label(for="usuario-credencial-login") Login *
+									input.form-control#usuario-credencial-login(ng-model="usuario.credencial.login", type='text', name='login',placeholder="Digite o login", required)
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="usuario-credencial-expiraEm") Expira Em
+									input.form-control#usuario-credencial-expiraEm(ng-model="usuario.credencial.expiraEm", ng-click="open($event)", type='text', datepicker-popup='dd/MM/yyyy', is-open='opened', min-date='hoje', datepicker-options='dateOptions')
+					
+							.col-md-6
+								.col-md-6
+									.form-group
+										label.control-label 
+										.checkbox.c-checkbox
+											label
+												input(type='checkbox', ng-model="usuario.credencial.bloqueado", name="credencial-bloqueada")
+												span.fa.fa-check
+												| bloqueado
+								.col-md-6
+									.form-group
+										label.control-label 
+										.checkbox.c-checkbox
+											label
+												input(type='checkbox', ng-model="usuario.credencial.desativado", name="credencial-desativada")
+												span.fa.fa-check
+												| desativado
+												
+						.col-md-12(autorizacao='ACSS_USUARIOS_EDITAR')
+							.col-md-6
+								.form-group
+									label.control-label Senha
+									span.form-control.btn.btn-primary(ng-click="enviarNovaSenha()", ng-disabled="usuario.id === undefined") Nova Senha
+						.col-md-12
+							.form-group(autorizacao='ACSS_PERFIS_LISTAR')
+								label.control-label 
+								#formPermissao.panel.panel-info(autorizacao='ACSS_USUARIOS_ADICIONAR,ACSS_USUARIOS_EDITAR', ng-if="temUsuario()")
+									.panel-heading
+										span.h4 Permissões
+										paneltool(tool-collapse)
+									.panel-wrapper(collapse="formPermissao", ng-init="formPermissao=true")
+										.panel-body
+											form#formularioPermissao(action="#",validate-form='', novalidate='')
+												fieldset
+													.col-md-10
+														.col-md-5
+															.form-group
+																label.control-label(for="perfil") Perfil: *
+																abn-tree(tree-data="arvoreDePerfis", tree-control="arvorePerfisCtrl")
+														.col-md-5
+															.form-group
+																label.control-label(for="empresa") Empresa *
+																select.chosen-select.input-md#empresa(chosen='', ng-model='empresa', ng-options='e.razaoSocial for e in empresas', required)
+													.col-md-2
+														.form-group
+															label.control-label &nbsp;
+															fieldset(ng-disabled="!(perfil &&  empresa)")
+																div(ng-click="adicionarPermissao(perfil, empresa)")
+																	span.btn.btn-labeled.btn-primary(autorizacao='ACSS_USUARIOS_ADICIONAR')
+																		span.btn-label
+																			i.fa.fa-plus-circle
+																		| ADD
+													.col-md-12
+														.form-group
+															table.table.ng-table-rowselected(ng-table='tablePermissaoParams')
+																tr(ng-repeat='perm in $data', ng-click='tableLineClick(perm)', ng-class="{'active': perm.id === permissao.id }")
+																	td(data-title="'Perfil'") {{perm.perfil.nome}}
+																	td(data-title="'Empresa'") {{perm.empresa.razaoSocial}}
+																	td(data-title="'Remover'")
+																		div(ng-click="removerPermissao(perm)")
+																			span.btn.btn-labeled.btn-danger(autorizacao='ACSS_USUARIOS_ADICIONAR')
+																				span.btn-label
+																					i.fa.fa-trash
+																				| Del
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', autorizacao='ACSS_USUARIOS_ADICIONAR', ng-click="novoUsuario()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', autorizacao='ACSS_USUARIOS_ADICIONAR,ACSS_USUARIOS_EDITAR', ng-click="salvar()",ng-disabled="!temUsuario()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', autorizacao='ACSS_USUARIOS_REMOVER', ng-click="desabilitarUsuario()",ng-disabled="!temUsuario() || usuario.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Bloquear
+script(type="text/javascript").
+	window.ParsleyValidator.addValidator('cpf', 
+	 function ( val, req) {
+					val = $.trim(val);
+ 
+					val = val.replace('.','');
+					val = val.replace('.','');
+					cpf = val.replace('-','');
+					while(cpf.length < 11) cpf = "0"+ cpf;
+					var expReg = /^0+$|^1+$|^2+$|^3+$|^4+$|^5+$|^6+$|^7+$|^8+$|^9+$/;
+					var a = [];
+					var b = new Number;
+					var c = 11;
+					for (i=0; i<11; i++){
+						a[i] = cpf.charAt(i);
+						if (i < 9) b += (a[i] * --c);
+					}
+					if ((x = b % 11) < 2) { a[9] = 0 } else { a[9] = 11-x }
+					b = 0;
+					c = 11;
+					for (y=0; y<10; y++) b += (a[y] * c--);
+					if ((x = b % 11) < 2) { a[10] = 0; } else { a[10] = 11-x; }
+ 
+					var result = true;
+					if ((cpf.charAt(9) != a[9]) || (cpf.charAt(10) != a[10]) || cpf.match(expReg)) result = false;
+ 
+					return result;
+				},32)
+	.addMessage('pt-br', 'cpf', 'CPF inválido!');

@@ -1,0 +1,61 @@
+.container-fluid
+	#tableSlides.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Slides
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableSlides",ng-init="tableSlides=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='sld in $data', ng-click='setSlide(sld)', ng-class="{'active primary': sld === slide }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{sld.id}}
+						td(data-title="'Titulo'", sortable="'titulo'") {{sld.titulo}}
+						td(data-title="'Ordem'", sortable="'ordem'") {{sld.ordem}}
+						td(data-title="'Link da Imagem'", sortable="'linkImagem'") {{sld.linkImagem}}
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="addSlide()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temSlide()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="removerSlide()",ng-disabled="!temSlide()")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover
+	#formCarrousels.panel.panel-info(ng-if="temSlide()")
+		.panel-heading
+			span.h4 {{slide.id +' - '+ slide.titulo}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formCarrousels", ng-init="formCarrousels=true")
+			.panel-body
+				form#formularioCarrousels(action="#",validate-form='', novalidate='',editable-form="", name="$form")
+					fieldset
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="slide-titulo") Título: *
+									input.form-control#slide-titulo(type='text', name='nome', ng-model='slide.titulo', placeholder="Digite o titulo",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="slide-ordem") Ordem: *
+									input.form-control#slide-ordem(type='number', name='nome', ng-model='slide.ordem', placeholder="Digite a ordem",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="slide-redirect") Link de redirecionamento: *
+									input.form-control#slide-redirect(type='text', name='nome', ng-model='slide.redirect', placeholder="Digite o link de redirecionamento",required)
+							
+							.col-md-12
+								.form-group
+									label.control-label(for="slide-text") Texto Slide: *
+									textarea.form-control#slide-text(ng-model="slide.texto", placeholder="Digite o texto do slide")
+							.col-md-12
+								.form-group
+									label.control-label(for="slide-link") link da Imagem: *
+									input.form-control#slide-link(type='text', name='link', ng-model='slide.linkImagem', placeholder="Digite o link da imagem",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="carrousel-img") Imagem: *
+									img.img-responsive#carrousel-img(ng-src='{{slide.linkImagem}}', alt="Imagem")

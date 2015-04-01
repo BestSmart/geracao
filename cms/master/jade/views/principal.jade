@@ -1,0 +1,18 @@
+// top navbar
+header.topnavbar-wrapper(ng-include="'app/views/partials/top-navbar.html'")
+
+// sidebar
+aside.aside(ng-include="'app/views/partials/sidebar.html'", ng-controller="SidebarController")
+
+// Main section
+section
+
+  // Page content
+  toaster-container(toaster-options="{'position-class': 'toast-top-right', 'close-button':true}")
+  .content-wrapper(ui-view="", autoscroll="false", ng-class="app.viewAnimation", loader="")
+  
+// Page footer
+footer(ng-include="'app/views/partials/footer.html'")
+script(type="text/javascript")
+  | window.ParsleyValidator.setLocale('pt-br');
+

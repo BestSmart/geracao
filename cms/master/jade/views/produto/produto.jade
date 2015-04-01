@@ -1,0 +1,100 @@
+.container-fluid
+	#tableProdutos.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Produtos
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableProdutos",ng-init="tableProdutos=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='prod in $data', ng-click='setProduto(prod)', ng-class="{'active primary': prod.id === produto.id }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{prod.id}}
+						td(data-title="'Nome'", sortable="'nome'") {{prod.nome}}
+						td(data-title="'Destaque'", sortable="'destaque'") {{prod.destaque}}
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="novoProduto()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temProduto()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="remover()",ng-disabled="!temProduto() || produto.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover
+	#formProdutos.panel.panel-info(ng-if="temProduto()")
+		.panel-heading
+			span.h4 {{produto.id +' - '+ produto.nome}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formProdutos", ng-init="formProdutos=true")
+			.panel-body
+				form#formularioProdutos(action="#",validate-form='', novalidate='',editable-form="", name="$form")
+					fieldset
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="produto-nome") Nome: *
+									input.form-control#produto-nome(type='text', name='nome', ng-model='produto.nome', placeholder="Digite o nome",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="produto-tags") Tags *
+									input.form-control#produto-tags(ng-model="produto.tags",type='text', placeholder="Digite as tags separadas por vírgula", required)
+							.col-md-6
+								.form-group
+									label.control-label(for="produto-resumo") Resumo *
+									textarea.form-control#produto-resumo(ng-model="produto.resumo", placeholder="Digite um breve resumo")
+							.col-md-6
+								form.form-horizontal(action="#")
+									button.btn.btn-primary(type="button", ng-click="addDetalhe()")
+										| Add Detalhe 
+									button.btn.btn-success.btn-sm(type="submit",ng-show="$form.$visible")
+										span.fa.fa-check
+									button.btn.btn-defaul.btn-sm(type="button", ng-click="$form.$hide()",ng-show="$form.$visible")
+										span.fa.fa-times.text-muted
+								.form-horizontal
+									.form-group.m0(ng-repeat="detalhe in produto.detalhes")
+										.col-sm-5
+											label.no-padding-left.col-sm-4.control-label label:
+											p.no-padding-left.col-sm-8.form-control-static
+												a(href='#', editable-text='detalhe.label', ng-click="$form.$show()") {{ detalhe.label || &apos;empty&apos; }}
+										.col-sm-5
+											label.no-padding-left.col-sm-5.control-label conteudo:
+											p.no-padding-left.col-sm-7.form-control-static
+												a(href='#', editable-text='detalhe.conteudo', ng-click="$form.$show()") {{ detalhe.conteudo || &apos;empty&apos; }}
+										.col-sm-2
+											p.form-control-static
+												button.btn.btn-defaul(type="button", ng-click="removerDetalhe(detalhe)")
+													| remover
+
+							.col-md-6
+								.col-md-6
+									.form-group
+										label.control-label 
+										.checkbox.c-checkbox
+											label
+												input(type='checkbox', ng-model="produto.destaque", name="produto.destaque")
+												span.fa.fa-check
+												| Destaque
+						.col-md-12
+							summernote(ng-model="produto.conteudo",lang="pt-BR", config="cfg")
+	#formVerImagens.panel.panel-info(ng-if="temProduto() && produto.id > 0")
+		.panel-heading
+			span.h4 Imagens do Produto
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formVerImagens", ng-init="formVerImagens=true")
+			.panel-body
+				gallery(images="images", excluir-imagem='excluirImagem', set-capa="setCapa")
+				
+	#formProdutoImagens.panel.panel-info(ng-if="temProduto() && produto.id > 0")
+		.panel-heading
+			span.h4 Upload de Imagens
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formProdutoImagens", ng-init="formProdutoImagens=true")
+			.panel-body
+				form#formularioProdutoImagens(action="#",validate-form='', novalidate='')
+					fieldset
+						h3 Upload de Imagens
+						bs-image-upload(album="produto.album.id", on-upload="afterUpload")
+	

@@ -1,0 +1,17 @@
+.row-masonry.row-masonry-md-4.row-masonry-sm-2
+	.col-masonry(ng-repeat="img in images", ng-class="{'btn btn-warning':img.capa, 'btn btn-default' : !img.capa}")
+		.form-group
+			a.btn.btn-labeled.btn-danger(ng-href="", ng-click="excluir(img)")
+				span.btn-label
+					i.fa.fa-trash
+				| Excluir
+			a.btn.btn-labeled.btn-default(ng-href="", ng-click="capa(img)")
+				span.btn-label
+					i.icon-note
+				| Capa
+		.grid-item(data-src="{{'../'+img.url}}", data-sub-html="{{'#subhtml'+$index}}")
+			img.img-thumbnail.img-responsive(ng-src="{{'../'+img.thumbnail}}")
+			div(style="display:none;", id="{{'subhtml'+$index}}")
+				.customHtml
+					span
+						a(ng-href="{{'../'+img.url}}", target="_blank") {{img.url}}

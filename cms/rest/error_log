@@ -1,0 +1,3 @@
+[25-Mar-2015 23:53:57] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_CONSTANT_ENCAPSED_STRING or '(' in /home/bests285/public_html/cms/rest/vendor/doctrine/orm/bin/doctrine.php on line 20
+[25-Mar-2015 23:54:13] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_CONSTANT_ENCAPSED_STRING or '(' in /home/bests285/public_html/cms/rest/vendor/doctrine/orm/bin/doctrine.php on line 20
+[25-Mar-2015 23:56:54] PHP Parse error:  syntax error, unexpected T_STRING, expecting T_CONSTANT_ENCAPSED_STRING or '(' in /home/bests285/public_html/cms/rest/vendor/doctrine/orm/bin/doctrine.php on line 20

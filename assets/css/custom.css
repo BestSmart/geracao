@@ -1,0 +1,22 @@
+/* Add here all your css styles (customizations) */
+
+.padding-15{
+    padding: 10px;
+}
+
+.carousel-inner>.item {
+	max-height: 350px;
+}
+.gallery-item, .gallery-item a{
+	max-height: 150px;
+	min-height: 150px;
+}
+
+.fb-comments, .fb-comments iframe[style], .fb-comments span {
+	width: 100% !important;
+}
+.word-wrap{
+	word-wrap: break-word;
+	white-space: pre-line;
+	max-width: 670px;
+}

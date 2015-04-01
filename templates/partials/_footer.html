@@ -1,0 +1,78 @@
+<!--=== Footer Version 1 ===-->
+<div class="footer-v1">
+	<div class="footer">
+		<div class="container">
+			<div class="row">
+				<!-- About -->
+				<div class="col-md-3 md-margin-bottom-40">
+					<a href="{{base_url}}/"><img id="logo-footer" class="footer-logo" src="{{sessoes['LINK_IMAGEM_LOGO_PRINCIPAL']}}" alt=""></a>
+					<p>{{empresa.slogan}}</p>
+				</div><!--/col-md-3-->
+				<!-- End About -->
+
+				<!-- Latest -->
+				{%if posts%}
+				<div class="col-md-3 md-margin-bottom-40">
+					<div class="posts">
+						<div class="headline"><h2>Postagens</h2></div>
+						<ul class="list-unstyled latest-list">
+							{%if posts.length > 5%}
+							{% for i in 0..5 %}
+							<li>
+								<a href="{{base_url}}/post/{{ posts[i].titulo}}">{{ posts[i].nomeMenu}}</a>
+								<small>{{posts[i].date |date("d/m/Y G:i:s")}}</small>
+							</li>
+							{% endfor %}
+							{%else%}
+							{% for post in posts %}
+							<li>
+								<a href="{{base_url}}/post/{{ post.titulo}}">{{ post.nomeMenu}}</a>
+								<small>{{post.date |date("d/m/Y G:i:s")}}</small>
+							</li>
+							{% endfor %}
+							{%endif%}
+						</ul>
+					</div>
+				</div><!--/col-md-3-->
+				{%endif%}
+				<!-- End Latest -->
+
+				<!-- Link List -->
+				<div class="col-md-3 md-margin-bottom-40">
+					<div class="headline"><h2>Links Úteis</h2></div>
+					<ul class="list-unstyled link-list">
+						{% for menu in menus %}
+						<li><a href="{{base_url}}/{{ menu.url }}">{{ menu.texto }}</a><i class="fa fa-angle-right"></i></li>
+						{% endfor %}
+					</ul>
+				</div><!--/col-md-3-->
+				<!-- End Link List -->
+
+				<!-- Address -->
+				<div class="col-md-3 map-img md-margin-bottom-40">
+					<div class="headline"><h2>Fale Conosco</h2></div>
+					<address class="md-margin-bottom-40">
+						{{empresa.endereco}} <br />
+						Telefone: {{empresa.telefone}} <br />
+						Email: <a href="mailto:{{empresa.emailContato}}">{{empresa.emailContato}}</a>
+					</address>
+				</div><!--/col-md-3-->
+				<!-- End Address -->
+			</div>
+		</div>
+	</div><!--/footer-->
+
+	<div class="copyright">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-6">
+					<p>
+						2015 &copy; Todos os Direitos Reservados.
+						<a href="http://bestsmart.com.br">BestSmart</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</div><!--/copyright-->
+</div>
+<!--=== End Footer Version 1 ===-->

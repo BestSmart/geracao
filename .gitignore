@@ -1,0 +1,16 @@
+nbprobject
+nbproject/*
+cms/vendor/*
+cms/master/bower_components/*
+cms/master/node_modules/*
+cms/master/npm-debug.log
+cms/rest/vendor/*
+cms/rest/composer.lock
+cms/rest/*.log
+cms/rest/img/*
+cms/rest/Configs.php
+cms/app/views/*
+cms/app/pages/*
+cms/app/js/*
+cms/app/css/*
+img/*

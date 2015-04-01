@@ -1,0 +1,43 @@
+.container-fluid
+	#tableDetalhes.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Detalhes
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableDetalhes",ng-init="tableDetalhes=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='ses in $data', ng-click='setDetalhe(ses)', ng-class="{'active primary': ses.id === detalhe.id }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{ses.id}}
+						td(data-title="'Label'", sortable="'label'") {{ses.label}}
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="novoDetalhe()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temDetalhe()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="remover()",ng-disabled="!temDetalhe() || detalhe.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover	
+	#formDetalhes.panel.panel-info(ng-if="temDetalhe()")
+		.panel-heading
+			span.h4 {{detalhe.id +' - '+ detalhe.label}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formDetalhes", ng-init="formDetalhes=true")
+			.panel-body
+				form#formularioDetalhes(action="#",validate-form='', novalidate='')
+					fieldset
+						.col-md-12
+							.col-md-12
+								.form-group
+									label.control-label(for="detalhe-label") Label: *
+									input.form-control#detalhe-label(type='text', name='nome', ng-model='detalhe.label', placeholder="Digite o label",required)
+						.col-md-12
+							.col-md-12
+								.form-group
+									label.control-label Conteúdo: *
+									textarea.form-control(ng-model="detalhe.conteudo")

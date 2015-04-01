@@ -1,0 +1,10 @@
+.container-fluid
+	// Row Select Example
+	.panel.panel-info
+		.panel-heading 
+			h3 Permissões
+		.panel-body
+			table.table.ng-table-rowselected(ng-table='tableParams')
+				tr(ng-repeat='perm in $data', ng-click='tableLineClick(perm)', ng-class="{'active': perm.id === permissao.id }")
+					td(data-title="'Perfil'") {{perm.perfil.nome}}
+					td(data-title="'Empresa'") {{perm.empresa.razaoSocial}}

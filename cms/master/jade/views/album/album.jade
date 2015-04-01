@@ -1,0 +1,72 @@
+.container-fluid
+	#tableAlbuns.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Albuns
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableAlbuns",ng-init="tableAlbuns=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='alb in $data', ng-click='setAlbum(alb)', ng-class="{'active primary': alb.id === album.id }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{alb.id}}
+						td(data-title="'Nome'", sortable="'nome'") {{alb.nome}}
+						td(data-title="'Descricao'", sortable="'descricao'") {{alb.descricao}}
+						td(data-title="'Publicar'", sortable="'publicar'") {{alb.publicar}}
+					
+	#formAlbuns.panel.panel-info(ng-if="temAlbum()")
+		.panel-heading
+			span.h4 {{album.id +' - '+ album.nome}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formAlbuns", ng-init="formAlbuns=true")
+			.panel-body
+				form#formularioAlbuns(action="#",validate-form='', novalidate='')
+					fieldset
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="album-nome") Nome: *
+									input.form-control#album-nome(type='text', name='nome', ng-model='album.nome', placeholder="Digite o nome",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="album-descricao") descricao: *
+									textarea.form-control#album-descricao(ng-model='album.descricao', placeholder="Digite uma breve descricao",required)
+							.col-md-6
+								.col-md-6
+									.form-group
+										label.control-label 
+										.checkbox.c-checkbox
+											label
+												input(type='checkbox', ng-model="album.publicar", name="album.publicar")
+												span.fa.fa-check
+												| Publicar
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="novoAlbum()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temAlbum()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="remover()",ng-disabled="!temAlbum() || album.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover
+	#formVerImagens.panel.panel-info(ng-if="temAlbum() && album.id > 0")
+		.panel-heading
+			span.h4 Imagens do Album
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formVerImagens", ng-init="formVerImagens=true")
+			.panel-body
+				gallery(images="images", excluir-imagem='excluirImagem', set-capa="setCapa")
+				
+	#formAlbumImagens.panel.panel-info(ng-if="temAlbum() && album.id > 0")
+		.panel-heading
+			span.h4 Upload de Imagens
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formAlbumImagens", ng-init="formAlbumImagens=true")
+			.panel-body
+				form#formularioAlbumImagens(action="#",validate-form='', novalidate='')
+					fieldset
+						h3 Upload de Imagens
+						bs-image-upload(album="album.id", on-upload="afterUpload")

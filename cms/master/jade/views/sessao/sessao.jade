@@ -1,0 +1,43 @@
+.container-fluid
+	#tableSessoes.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Sessoes
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableSessoes",ng-init="tableSessoes=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='ses in $data', ng-click='setSessao(ses)', ng-class="{'active primary': ses.id === sessao.id }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{ses.id}}
+						td(data-title="'Código'", sortable="'codigo'") {{ses.codigo}}
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="novaSessao()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temSessao()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="remover()",ng-disabled="!temSessao() || sessao.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover	
+	#formSessoes.panel.panel-info(ng-if="temSessao()")
+		.panel-heading
+			span.h4 {{sessao.id +' - '+ sessao.codigo}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formSessoes", ng-init="formSessoes=true")
+			.panel-body
+				form#formularioSessoes(action="#",validate-form='', novalidate='')
+					fieldset
+						.col-md-12
+							.col-md-12
+								.form-group
+									label.control-label(for="sessao-codigo") Código: *
+									input.form-control#sessao-codigo(type='text', name='nome', ng-model='sessao.codigo', placeholder="Digite o codigo",required)
+						.col-md-12
+							.col-md-12
+								.form-group
+									label.control-label Conteúdo: *
+									textarea.form-control(ng-model="sessao.conteudo")

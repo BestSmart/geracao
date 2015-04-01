@@ -1,0 +1,110 @@
+.container-fluid
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temEmpresa()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+	#formEmpresas.panel.panel-info(ng-if="temEmpresa()")
+		.panel-heading
+			span.h4 {{empresa.id +' - '+ empresa.nome}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formEmpresas", ng-init="formEmpresas=true")
+			.panel-body
+				form#formularioEmpresas(action="#",validate-form='', novalidate='',editable-form="", name="$form")
+					fieldset
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-nome") Nome: *
+									input.form-control#empresa-nome(type='text', name='nome', ng-model='empresa.nome', placeholder="Digite o nome",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-slogan") Slogan da Empresa: *
+									input.form-control#empresa-slogan(type='text', name='nome', ng-model='empresa.slogan', placeholder="Digite o slogan")
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-dominio") Domínio: *
+									input.form-control#empresa-dominio(type='text', name='telefone', ng-model='empresa.dominio', placeholder="Digite o dominio",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-idGoogleAnalytics") Id Google Analytics: *
+									input.form-control#empresa-idGoogleAnalytics(type='text', name='idGoogleAnalytics', ng-model='empresa.idGoogleAnalytics', placeholder="Digite o ID do Google Analytics",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-telefone") Telefone: *
+									input.form-control#empresa-telefone(type='text', name='telefone', ng-model='empresa.telefone', placeholder="Digite o telefone",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-endereco") Endereço: *
+									input.form-control#empresa-endereco(type='text', name='endereco', ng-model='empresa.endereco', placeholder="Digite o endereco",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-email") Email Contato *
+									input.form-control#empresa-email(ng-model="empresa.emailContato",type='text', placeholder="Digite o email de contato separado", required)
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-maps") Url Google Maps *
+									input.form-control#empresa-maps(ng-model="empresa.urlGoogleMaps",type='text', placeholder="Digite a url do Google Maps")
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-missao") Missão *
+									textarea.form-control#empresa-missao(ng-model="empresa.missao", placeholder="Digite a missão")
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-visao") Visão *
+									textarea.form-control#empresa-visao(ng-model="empresa.visao", placeholder="Digite a visão")
+							.col-md-6
+								.form-group
+									label.control-label(for="empresa-valores") Valores *
+									textarea.form-control#empresa-valores(ng-model="empresa.valores", placeholder="Valores separados por vírgula")
+							.col-md-8
+								form.form-horizontal(action="#")
+									button.btn.btn-primary(type="button", ng-click="addDetalhe()")
+										| Add Detalhe 
+									button.btn.btn-success.btn-sm(type="submit",ng-show="$form.$visible")
+										span.fa.fa-check
+									button.btn.btn-defaul.btn-sm(type="button", ng-click="$form.$hide()",ng-show="$form.$visible")
+										span.fa.fa-times.text-muted
+								.form-horizontal.text-left
+									.form-group.m0(ng-repeat="detalhe in empresa.detalhes")
+										.col-sm-5
+											label.no-padding-left.col-sm-4.control-label label:
+											p.no-padding-left.col-sm-8.form-control-static
+												a(href='#', editable-text='detalhe.label', ng-click="$form.$show()") {{ detalhe.label || &apos;empty&apos; }}
+										.col-sm-5
+											label.no-padding-left.col-sm-5.control-label conteudo:
+											p.no-padding-left.col-sm-7.form-control-static
+												a(href='#', editable-text='detalhe.conteudo', ng-click="$form.$show()") {{ detalhe.conteudo || &apos;empty&apos; }}
+										.col-sm-2
+											p.form-control-static
+												button.btn.btn-defaul(type="button", ng-click="removerDetalhe(detalhe)")
+													| remover
+
+						.col-md-6
+							.form-group
+								label.control-label(for="empresa-historia") História da Empresa *
+								summernote(ng-model="empresa.historia",lang="pt-BR", config="cfg")
+						.col-md-6
+							.form-group
+								label.control-label(for="empresa-resumo") Resumo Sobre a Empresa *
+								summernote(ng-model="empresa.resumo",lang="pt-BR", config="cfg")
+	#formVerImagens.panel.panel-info(ng-if="temEmpresa() && empresa.id > 0")
+		.panel-heading
+			span.h4 Imagens do Empresa
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formVerImagens", ng-init="formVerImagens=true")
+			.panel-body
+				gallery(images="images", excluir-imagem='excluirImagem', set-capa="setCapa")
+				
+	#formEmpresaImagens.panel.panel-info(ng-if="temEmpresa() && empresa.id > 0")
+		.panel-heading
+			span.h4 Upload de Imagens
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formEmpresaImagens", ng-init="formEmpresaImagens=true")
+			.panel-body
+				form#formularioEmpresaImagens(action="#",validate-form='', novalidate='')
+					fieldset
+						h3 Upload de Imagens
+						bs-image-upload(album="empresa.album.id", on-upload="afterUpload")
+	

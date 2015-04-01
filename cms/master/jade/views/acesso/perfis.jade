@@ -1,0 +1,54 @@
+.container-fluid(autorizacao='ACSS_PERFIS_LISTAR')
+	// Row Select Example
+	#tablePerfis.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Perfis
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tablePerfis",ng-init="tablePerfis=true")
+			.panel-body
+				.container-fluid
+					.form-group
+						label.control-label(for="modulos") Modulos/Rotinas
+						abn-tree(tree-data="arvoreDePerfis", tree-control="arvorePerfisCtrl")
+	#formPerfis.panel.panel-info(autorizacao='ACSS_PERFIS_LISTAR', ng-if="temPerfil()")
+		.panel-heading
+			span.h4 {{perfil.nome}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formPerfis", ng-init="formPerfis=true")
+			.panel-body
+				form#formularioPerfis(action="#",validate-form='', novalidate='')
+					fieldset
+						.col-md-12
+							.col-md-8
+								.form-group
+									label.control-label(for="perfil-nome") Nome: *
+									input.form-control#perfil-nome(type='text', name='nome', ng-model='perfil.nome', placeholder="Digite o nome",required)
+						.col-md-12
+							.col-md-3
+								.form-group
+									label.control-label(for="modulos") Modulos/Rotinas
+									abn-tree(tree-data="arvore", tree-control="arvoreCtrl")
+							.col-md-5
+								.form-group
+									label.control-label(for="operacoes") Operações *
+									.panel.panel-default
+										.panel-body
+											.checkbox.c-checkbox(ng-repeat="op in arvoreCtrl.get_selected_branch().data.operacoes")
+												label
+													input(type='checkbox', ng-model="op.isSelected")
+													span.fa.fa-check
+													| {{op.nome}}
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', autorizacao='ACSS_PERFIS_ADICIONAR', ng-click="novoPerfil()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', autorizacao='ACSS_PERFIS_ADICIONAR,ACSS_PERFIS_EDITAR', ng-click="salvar()",ng-disabled="!temPerfil()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', autorizacao='ACSS_PERFIS_REMOVER', ng-click="desabilitarPerfil()",ng-disabled="!temPerfil() || perfil.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover

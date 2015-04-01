@@ -1,0 +1,159 @@
+{% extends "index.html" %}
+{%block head%}
+
+<meta property="article:author" content="{{empresa.nome}}">
+<meta property="article:tag" content="imagens, albuns, galeria">
+<meta property="article:published_time" content="{{time}}">
+{{parent()}}
+{%block more_css%}
+<link rel="stylesheet" href="assets/plugins/fancybox/source/jquery.fancybox.css">   
+{%endblock%}
+{%endblock%}
+{% block top %}
+<!--=== Header ===-->
+<div class="wrapper">
+	<div class="header">
+
+		{% block topbar %}
+		<div class="header">
+			<!-- Topbar -->
+			<div class="topbar">
+				<div class="container">
+					<!-- Topbar Navigation -->
+					<ul class="loginbar pull-right">
+						<li><div class="fb-share-button" data-href="{{url}}" data-layout="button_count"></div></li>   
+						<li><div class="fb-like" data-href="{{empresa.dominio}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" data-colorscheme="light"></div></li>   
+						<!--						<li class="topbar-devider"></li>
+												<li>Email: <a href="mailto:{{sessoes['TOP_BAR_EMAIL']}}">{{sessoes['TOP_BAR_EMAIL']}}</a></li>
+												<li class="topbar-devider"></li>
+												<li>Telefone: {{sessoes['TOP_BAR_TELEFONE']}}</li>-->
+					</ul>
+					<!-- End Topbar Navigation -->
+				</div>
+			</div>
+			{% endblock %}
+
+			{% block menu %}
+			<!-- Navbar -->
+			<div class="navbar navbar-default mega-menu" role="navigation">
+				<div class="container">
+					<div class="navbar navbar-default" role="navigation">
+						<div class="container">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="fa fa-bars"></span>
+								</button>
+
+								<a class="navbar-brand" href="{{base_url}}/">
+									<img id="logo-header" src=" {{sessoes['LINK_IMAGEM_LOGO_PRINCIPAL']}}" alt="Logo">
+								</a>
+							</div>
+
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="collapse navbar-collapse navbar-responsive-collapse">
+								<ul class="nav navbar-nav">
+									<li><a href="{{base_url}}/">Home</a></li>
+									<li><a href="{{base_url}}/quemsomos">Quem Somos</a></li>
+									{% for menu in menus %}
+									<li class='{{ menu.texto == pagina.nomeMenu ? 'active' }}'><a href="{{base_url}}/{{ menu.url }}">{{ menu.texto }}</a></li>
+									{% endfor %}
+									{%if produtos%}
+									<li><a href="{{base_url}}/produtos/1">Produtos</a></li>
+									{%endif%}
+									{%if posts%}
+									<li><a href="{{base_url}}/posts/1">Blog</a></li>
+									{%endif%}
+									{%if albuns%}
+									<li><a href="{{base_url}}/galeria">Galeria</a></li>
+									{%endif%}
+									<li ><a href="{{base_url}}/contato">Contato</a></li>
+								</ul>
+							</div><!--/navbar-collapse-->
+						</div>
+					</div>
+					<!-- End Navbar -->
+					{% endblock %}
+				</div>
+				{% endblock %}
+				{% block content %}
+				<div class="container content">
+					<div class="blog-page ">    
+						<!-- Left Sidebar -->
+						<div class="col-md-3 ">
+							<!-- Posts -->
+							<div class="posts margin-bottom-40">
+								<div class="headline headline-md"><h2>Albuns</h2></div>
+								{%for album in albuns%}
+								{%if album.getCapa()%}
+								{%set capa = album.getCapa().thumbnail%}
+								{%else%}
+								{%set capa = 'noimage.jpg'%}
+								{%endif%}
+								<dl class="dl-horizontal">
+									<dt><a href="{{base_url}}/galeria/{{album.nome}}/1"><img src="{{base_url}}/{{capa | replace({'../../':''})}}" alt="" /></a></dt>
+									<dd>
+										{%if album.descricao%}
+										{%set descricao = album.descricao%}
+										{%else%}
+										{%set descricao = album.nome%}
+										{%endif%}
+										<p><a href="{{base_url}}/galeria/{{album.nome}}/1">{{descricao}}</a></p> 
+									</dd>
+								</dl>
+								{%endfor%}
+							</div><!--/posts-->
+							<!-- End Posts -->
+						</div>
+						<!-- Right Sidebar -->
+						<div class="col-md-9">
+							<div class="gallery-page">
+								<div class="row margin-bottom-20">
+									{%for imagem in imagens%}
+									<div class="col-md-3 col-sm-6 gallery-item">
+										<a class="thumbnail fancybox-button zoomer" data-rel="fancybox-button" title="Imagem {{loop.index}} do album '{{album.nome}}'" href="{{base_url}}/{{imagem.url | replace({'../../':''})}}">
+											<span class="overlay-zoom">  
+												<img alt="" src="{{base_url}}/{{imagem.thumbnail | replace({'../../':''})}}" class="img-responsive">
+												<span class="zoom-icon"></span>
+											</span>                                              
+										</a>
+									</div>
+									{%endfor%}
+								</div>
+								<div class="text-right">
+									<ul class="pagination">
+										{% if pages == 1 %}
+										<li><a href="{{pages}}">{{loop.index}}</a></li>
+										{% else %}
+										{% for i in 0..pages %}
+										<li><a href="{{pages}}">{{loop.index}}</a></li>
+										{% endfor %}
+										{%endif%}
+									</ul>
+								</div>			
+							</div><!--/gallery-page-->
+						</div>
+						<!-- End Right Sidebar -->
+					</div>
+					<div class="row col-md-12">
+						<div class="fb-share-button" data-href="{{url}}" data-layout="button_count"></div>
+						<div class="fb-comments" data-href="{{url}}" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+					</div>
+				</div>
+			</div>
+			{% endblock %}
+
+			{%block scripts%}
+			{{parent()}}
+			{%block more_scripts%}
+			<script type="text/javascript" src="assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+			<script type="text/javascript" src="assets/js/plugins/fancy-box.js"></script>
+			<script type="text/javascript">
+jQuery(document).ready(function () {
+	App.init();
+	FancyBox.initFancybox();
+});
+			</script>
+			{%endblock%}
+			{%endblock%}

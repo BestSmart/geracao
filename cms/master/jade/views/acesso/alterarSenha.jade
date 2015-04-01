@@ -1,0 +1,33 @@
+.container-fluid
+	.panel.panel-info
+		.panel-heading
+			span.h4 Alterar Senha
+		.panel-body
+			form#formularioAlterarSenha(action="#",validate-form='', novalidate='')
+				fieldset
+					.col-md-12
+						.col-md-6
+							.form-group
+								label.control-label(for="senha-atual") Senha Atual *
+								input.form-control#senha-atual(ng-model="senhaAtual", type='password', name='senha-atual',placeholder="Digite a senha atual", required)
+					.col-md-12
+						.col-md-6
+							.form-group
+								label.control-label(for="nova-senha") Nova Senha *
+								input.form-control#nova-senha(ng-model="novaSenha", type='password', name='nova-senha',placeholder="Digite a nova senha", data-parsley-notequal="#senha-atual", required, data-parsley-minlength='8')
+						.col-md-6
+							.form-group
+								label.control-label(for="confirmar-nova-senha") Confirmar Nova Senha *
+								input.form-control#confirmar-nova-senha(ng-model="confirmarNovaSenha", type='password', name='confirmar-nova-senha',placeholder="Repita a nova senha", required, data-parsley-equalto="#nova-senha", data-parsley-minlength='8')
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="alterarSenha()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Alterar Senha
+script(type='text/javascript').
+	window.ParsleyValidator.addValidator('notequal', 
+		 function ( val, req) {
+		        return value !== requirement;
+	    },32)
+	  .addMessage('pt-br','notequal', 'Deve ser diferente de %s');

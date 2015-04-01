@@ -1,0 +1,67 @@
+.container-fluid
+	#tableParceiros.panel.panel-info
+		.panel-heading 
+			span.h4 Lista de Parceiros
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="tableParceiros",ng-init="tableParceiros=true")
+			.panel-body
+				table.table.ng-table-rowselected(ng-table='tableParams')
+					tr(ng-repeat='prod in $data', ng-click='setParceiro(prod)', ng-class="{'active primary': prod.id === parceiro.id }")
+						td(data-title="'Id'", sortable="'id'", filter="{ 'id': 'text' }") {{prod.id}}
+						td(data-title="'Nome'", sortable="'nome'") {{prod.nome}}
+						td(data-title="'Url'", sortable="'url'") {{prod.url}}
+						td(data-title="'slogan'", sortable="'slogan'") {{prod.slogan}}
+	.panel.panel-default
+		.panel-body
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="novoParceiro()")
+				span.btn-label
+					i.fa.fa-plus-circle
+				| Novo
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="salvar()",ng-disabled="!temParceiro()")
+				span.btn-label
+					i.fa.fa-floppy-o
+				| Salvar
+			button.btn.btn-labeled.btn-primary(type='button', ng-click="remover()",ng-disabled="!temParceiro() || parceiro.id === undefined")
+				span.btn-label
+					i.fa.fa-trash
+				| Remover
+	#formParceiros.panel.panel-info(ng-if="temParceiro()")
+		.panel-heading
+			span.h4 {{parceiro.id +' - '+ parceiro.nome}}
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formParceiros", ng-init="formParceiros=true")
+			.panel-body
+				form#formularioParceiros(action="#",validate-form='', novalidate='',editable-form="", name="$form")
+					fieldset
+						.col-md-12
+							.col-md-6
+								.form-group
+									label.control-label(for="parceiro-nome") Nome: *
+									input.form-control#parceiro-nome(type='text', name='nome', ng-model='parceiro.nome', placeholder="Digite o nome",required)
+							.col-md-6
+								.form-group
+									label.control-label(for="parceiro-url") Url *
+									input.form-control#parceiro-url(ng-model="parceiro.url",type='text', placeholder="Digite a url")
+							.col-md-6
+								.form-group
+									label.control-label(for="parceiro-slogan") Slogan *
+									input.form-control#parceiro-slogan(ng-model="parceiro.slogan",type='text', placeholder="Digite o slogan")
+	#formVerImagens.panel.panel-info(ng-if="temParceiro() && parceiro.id > 0")
+		.panel-heading
+			span.h4 Imagens do Parceiro
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formVerImagens", ng-init="formVerImagens=true")
+			.panel-body
+				gallery(images="images", excluir-imagem='excluirImagem', set-capa="setCapa")
+				
+	#formParceiroImagens.panel.panel-info(ng-if="temParceiro() && parceiro.id > 0")
+		.panel-heading
+			span.h4 Upload de Imagens
+			paneltool(tool-collapse)
+		.panel-wrapper(collapse="formParceiroImagens", ng-init="formParceiroImagens=true")
+			.panel-body
+				form#formularioParceiroImagens(action="#",validate-form='', novalidate='')
+					fieldset
+						h3 Upload de Imagens
+						bs-image-upload(album="parceiro.album.id", on-upload="afterUpload")
+	

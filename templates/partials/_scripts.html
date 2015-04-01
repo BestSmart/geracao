@@ -1,0 +1,38 @@
+<script type="text/javascript" src="{{base_url}}/assets/plugins/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/jquery/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+<!-- JS Implementing Plugins -->
+<script type="text/javascript" src="{{base_url}}/assets/plugins/back-to-top.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/jquery.parallax.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/parallax-slider/js/modernizr.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/parallax-slider/js/jquery.cslider.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/fancybox/source/jquery.fancybox.pack.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/owl-carousel/owl-carousel/owl.carousel.js"></script>
+
+<script type="text/javascript" src="{{base_url}}/assets/plugins/counter/waypoints.min.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/counter/jquery.counterup.min.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.tools.min.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/plugins/revolution-slider/rs-plugin/js/jquery.themepunch.revolution.min.js"></script>
+<!-- JS Customization -->
+<script type="text/javascript" src="{{base_url}}/assets/js/custom.js"></script>
+<!-- JS Page Level -->
+<script type="text/javascript" src="{{base_url}}/assets/js/app.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/js/plugins/fancy-box.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/js/plugins/owl-carousel.js"></script>
+<script type="text/javascript" src="{{base_url}}/assets/js/plugins/revolution-slider.js"></script>
+{%block more_scripts%}
+{%endblock%}
+<script type="text/javascript">
+jQuery(document).ready(function () {
+	App.init();
+	App.initCounter();
+	App.initParallaxBg();
+	FancyBox.initFancybox();
+	OwlCarousel.initOwlCarousel();
+	RevolutionSlider.initRSfullScreenOffset();
+});
+</script>
+<!--[if lt IE 9]>
+    <script src="{{base_url}}/assets/plugins/respond.js"></script>
+    <script src="{{base_url}}/assets/plugins/html5shiv.js"></script>
+<![endif]-->

@@ -1,0 +1,125 @@
+{% extends "index.html" %}
+
+{% block top %}
+<!--=== Header ===-->
+<div class="wrapper">
+	<div class="header">
+
+		{% block topbar %}
+		<div class="header">
+			<!-- Topbar -->
+			<div class="topbar">
+				<div class="container">
+					<!-- Topbar Navigation -->
+					<ul class="loginbar pull-right">
+						<li><div class="fb-share-button" data-href="{{url}}" data-layout="button_count"></div></li>   
+						<li><div class="fb-like" data-href="{{empresa.dominio}}" data-layout="button_count" data-action="like" data-show-faces="false" data-share="false" data-colorscheme="light"></div></li>   
+						<!--						<li class="topbar-devider"></li>
+												<li>Email: <a href="mailto:{{sessoes['TOP_BAR_EMAIL']}}">{{sessoes['TOP_BAR_EMAIL']}}</a></li>
+												<li class="topbar-devider"></li>
+												<li>Telefone: {{sessoes['TOP_BAR_TELEFONE']}}</li>-->
+					</ul>
+					<!-- End Topbar Navigation -->
+				</div>
+			</div>
+			{% endblock %}
+
+			{% block menu %}
+			<!-- Navbar -->
+			<div class="navbar navbar-default mega-menu" role="navigation">
+				<div class="container">
+					<div class="navbar navbar-default" role="navigation">
+						<div class="container">
+							<!-- Brand and toggle get grouped for better mobile display -->
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-responsive-collapse">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="fa fa-bars"></span>
+								</button>
+
+								<a class="navbar-brand" href="{{base_url}}/">
+									<img id="logo-header" src=" {{sessoes['LINK_IMAGEM_LOGO_PRINCIPAL']}}" alt="Logo">
+								</a>
+							</div>
+
+							<!-- Collect the nav links, forms, and other content for toggling -->
+							<div class="collapse navbar-collapse navbar-responsive-collapse">
+								<ul class="nav navbar-nav">
+									<li><a href="{{base_url}}/">Home</a></li>
+									<li><a href="{{base_url}}/quemsomos">Quem Somos</a></li>
+									{% for menu in menus %}
+									<li class='{{ menu.texto == produto.nome ? 'active' }}'><a href="{{base_url}}/{{ menu.url }}">{{ menu.texto }}</a></li>
+									{% endfor %}
+									{%if produtos%}
+									<li><a href="{{base_url}}/produtos/1">Produtos</a></li>
+									{%endif%}
+									{%if posts%}
+									<li><a href="{{base_url}}/posts/1">Blog</a></li>
+									{%endif%}
+									<li ><a href="{{base_url}}/contato">Contato</a></li>
+								</ul>
+							</div><!--/navbar-collapse-->
+						</div>
+					</div>
+					<!-- End Navbar -->
+					{% endblock %}
+				</div>
+				{% endblock %}
+				{% block content %}
+				<!--=== Breadcrumbs ===-->
+				<div class="breadcrumbs">
+					<div class="container">
+						<h1 class="pull-left">{{produto.nome}}</h1>
+						<ul class="pull-right breadcrumb">
+							<li><a href="{{base_url}}/">Home</a></li>
+							<li><a href="{{base_url}}/produtos/1">Produtos</a></li>
+							<li class="active">{{produto.nome}}</li>
+						</ul>
+					</div><!--/container-->
+				</div><!--/breadcrumbs-->
+				<!--=== End Breadcrumbs ===-->
+
+				<!--Blog Post-->
+				<div class="container content">
+					<div class="row margin-bottom-60">
+						{%if imagens%}
+						<div class="col-md-12">
+							<div class="carousel slide carousel-v1" id="myCarousel">
+								<div class="carousel-inner">
+									{% for image in imagens %}
+									<div class="item {%if loop.first %}active{%endif%}">
+										<img alt="" src="../../rest/{{image['url']}}">
+									</div>
+									{%endfor%}
+								</div>
+
+								<div class="carousel-arrow">
+									<a data-slide="prev" href="#myCarousel" class="left carousel-control">
+										<i class="fa fa-angle-left"></i>
+									</a>
+									<a data-slide="next" href="#myCarousel" class="right carousel-control">
+										<i class="fa fa-angle-right"></i>
+									</a>
+								</div>
+							</div>
+						</div>
+						{%endif%}
+						<div class="col-sm-8">
+							<div class="headline"><h2>Descrição</h2></div>
+							<p>{{produto.conteudo | raw}}</p>
+						</div>
+						<div class="col-sm-4">
+							<div class="headline"><h2>Detalhes</h2></div>
+							<ul class="list-unstyled project-details">
+								{%for detalhe in produto.detalhes%}
+								<li><strong>{{detalhe.label}}:</strong> {{detalhe.conteudo}}</li>
+								{%endfor%}
+							</ul>
+						</div>
+					</div>
+					<div class="container">
+						<div class="fb-share-button" data-href="{{url}}" data-layout="button_count"></div>
+						<div class="fb-comments" data-href="{{url}}" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
+					</div>
+				</div>
+				{% endblock %}
